@@ -3,12 +3,11 @@ using BlazorMerge.Feature.Merge;
 
 namespace BlazorMerge.UnitTests.Merge;
 
-[UsesVerify]
 public class MergerTests
 {
 
     [ModuleInitializer]
-    public static void Init() => VerifierSettings.UseStrictJson();
+    internal static void Init() => VerifierSettings.UseStrictJson();
     
     [Fact]
     public Task When_MergingJsonObjects_Then_ResultShouldBeTheCombinationOfBoth()
