@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4.5] - 2024-03-06
+
 ## [0.1.3.4] - 2023-11-17
 
-[Unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.1.3.4...HEAD
+[Unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.1.4.5...HEAD
+
+[0.1.4.5]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.1.3.4...0.1.4.5
 
 [0.1.3.4]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/b9c7c0d263bd538401345ed79e6de5f620e8ddc1...0.1.3.4
