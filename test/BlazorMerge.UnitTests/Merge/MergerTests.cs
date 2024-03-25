@@ -12,63 +12,96 @@ public class MergerTests
     [Fact]
     public Task When_MergingJsonObjects_Then_ResultShouldBeTheCombinationOfBoth()
     {
-        // Arrange
+        // arrange
         var merger = new Merger();
         var appSetting = JsonConvert.SerializeObject(new
         {
-            key1 = "value1",
-            key2 = "value2"
+            key1 = "correct",
+            key2 = "incorrect"
         });
         var environmentSetting = JsonConvert.SerializeObject(new
         {
-            key2 = "value3",
-            key3 = "value4"
+            key2 = "correct",
+            key3 = "correct"
         });
             
         
-        // Act
+        // act
         var result = merger.Merge(appSetting, environmentSetting);
         
-        // Assert
+        // assert
         return VerifyJson(result);
     }
     
     [Fact]
-    public Task When_MergingComplexJsonObjects_Then_ResultShouldBeTheCombinationOfBoth()
+    public Task When_MergingComplexJsonObjects_Then_ResultShouldBeTheCombinationOfBoth001()
     {
-        // Arrange
+        // arrange
         var merger = new Merger();
         var appSetting = JsonConvert.SerializeObject(new
         {
-            key1 = "value1",
-            key2 = "value2",
+            key1 = "correct",
+            key2 = "incorrect",
             key4 = new
             {
-                key5 = "value5"
+                key5 = "correct"
             }
         });
         var environmentSetting = JsonConvert.SerializeObject(new
         {
-            key2 = "value3",
-            key3 = "value4",
+            key2 = "correct",
+            key3 = "correct",
             key4 = new
             {
-                key6 = "value6"
+                key6 = "correct"
             }
         });
             
         
-        // Act
+        // act
         var result = merger.Merge(appSetting, environmentSetting);
         
-        // Assert
+        // assert
+        return VerifyJson(result);
+    }
+    
+    [Fact]
+    public Task When_MergingComplexJsonObjects_Then_ResultShouldBeTheCombinationOfBoth002()
+    {
+        // arrange
+        var merger = new Merger();
+        var appSetting = JsonConvert.SerializeObject(new
+        {
+            name = "incorrect",
+            age = "correct",
+            address = new
+            {
+                street = "incorrect",
+                city = "correct"
+            }
+        });
+        var environmentSetting = JsonConvert.SerializeObject(new
+        {
+            name = "correct",
+            address = new
+            {
+                street = "correct"
+            },
+            likes = "correct"
+        });
+            
+        
+        // act
+        var result = merger.Merge(appSetting, environmentSetting);
+        
+        // assert
         return VerifyJson(result);
     }
     
     [Fact]
     public void When_MergingInvalidJson_Then_ShouldThrowException()
     {
-        // Arrange
+        // arrange
         var merger = new Merger();
         const string appSetting = "invalid json";
         var environmentSetting = JsonConvert.SerializeObject(new
@@ -78,10 +111,10 @@ public class MergerTests
         });
             
         
-        // Act
+        // act
         var exception = Record.Exception(() => merger.Merge(appSetting, environmentSetting));
         
-        // Assert
+        // assert
         exception.Should().NotBeNull();
         exception.Should().BeOfType<JsonReaderException>();
     }
