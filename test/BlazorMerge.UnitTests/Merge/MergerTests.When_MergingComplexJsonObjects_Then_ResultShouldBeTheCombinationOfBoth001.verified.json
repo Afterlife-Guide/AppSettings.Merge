@@ -1,5 +1,9 @@
 ﻿{
   "key1": "correct",
   "key2": "correct",
+  "key4": {
+    "key5": "correct",
+    "key6": "correct"
+  },
   "key3": "correct"
 }

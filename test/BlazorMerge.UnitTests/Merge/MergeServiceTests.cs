@@ -1,8 +1,6 @@
 ﻿using BlazorMerge.Feature.Merge;
 using BlazorMerge.Files;
 using Microsoft.Extensions.Configuration;
-using NSubstitute;
-using NSubstitute.Extensions;
 
 namespace BlazorMerge.UnitTests.Merge;
 

@@ -1,0 +1,9 @@
+﻿{
+  "name": "correct",
+  "age": "correct",
+  "address": {
+    "street": "correct",
+    "city": "correct"
+  },
+  "likes": "correct"
+}
