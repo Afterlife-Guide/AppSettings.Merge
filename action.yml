@@ -9,7 +9,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'src/BlazorMerge/Dockerfile'
+  image: 'docker://ghcr.io/AfterLife-Guide/AppSettings.Merge:dummy'
   args:
     - '-e'
     - ${{ inputs.app-environment }}
