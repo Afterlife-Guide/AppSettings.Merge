@@ -24,28 +24,29 @@ jobs:
         run: git checkout -b release/${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}.${{ github.run_number }}
         
       - name: Update Version Number
-        uses: RadovanPelka/github-action-json@v1.0.1
+        uses: Afterlife-Guide/SemVer.Action@1.0.3.8
         with:
           path: semver.json
-          replaceWith: |
-            {
-              "major": "${{ github.event.inputs.major_version }}",
-              "minor": "${{ github.event.inputs.minor_version }}",
-              "patch": "${{ github.event.inputs.patch_version }}",
-              "build": "${{ github.run_number }}"
-            }
+          major-version: ${{ github.event.inputs.major_version }}
+          minor-version: ${{ github.event.inputs.minor_version }}
+          patch-version: ${{ github.event.inputs.patch_version }}
+          build-version: ${{ github.run_number }}
 
       - name: Update changelog
         uses: thomaseizinger/keep-a-changelog-new-release@2.0.0
         with:
           tag: ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}.${{ github.run_number }}
 
-      - name: Commit changelog and manifest files
+      - name: Update docker image tag version in action.yml
+        run: |
+          sed -i "s/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:.*/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}.${{ github.run_number }}'/" action.yml
+
+      - name: Commit changelog, manifest and action definition files
         id: make-commit
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "no-reply@after-life.co"
-          git add CHANGELOG.md semver.json
+          git add CHANGELOG.md semver.json action.yml
           git commit --message "Prepare release ${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}.${{ github.run_number }}"
 
           echo "commit=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT

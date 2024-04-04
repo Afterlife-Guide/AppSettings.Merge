@@ -1,6 +1,0 @@
-
-lcsharpsquid:S1118"OAdd a 'protected' constructor or the 'static' keyword to the class declaration.(Ñˆ™½
-fcsharpsquid:S1104"DMake this field 'private' and encapsulate it in a 'public' property.(ïå£ƒúÿÿÿÿ
-fcsharpsquid:S1104"DMake this field 'private' and encapsulate it in a 'public' property.(ÞÊçïÿÿÿÿÿ
-kcsharpsquid:S2223"IChange the visibility of 'MainFileName' or make it 'const' or 'readonly'.(ïå£ƒúÿÿÿÿ
-rcsharpsquid:S2223"PChange the visibility of 'EnvironmentFileName' or make it 'const' or 'readonly'.(ÞÊçïÿÿÿÿÿ
