@@ -20,14 +20,22 @@ jobs:
       version: ${{ needs.get-version.outputs.version }}
       checkout-ref: ${{ github.base_ref }}
   
-  tag-release:
+  push-package:
     needs: [get-version,build]
+    uses: ./.github/workflows/step-push-package.yml
+    secrets: inherit
+    with:
+      version: ${{ needs.get-version.outputs.version }}
+      checkout-ref: ${{ github.base_ref }}
+  
+  tag-release:
+    needs: [get-version,push-package]
     uses: ./.github/workflows/step-tag-release.yml
     with:
       version: ${{ needs.get-version.outputs.version }}
   
   merge-master-to-develop:
-    needs: [build]
+    needs: [push-package]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
