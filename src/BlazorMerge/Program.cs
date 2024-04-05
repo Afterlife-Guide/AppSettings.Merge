@@ -4,7 +4,7 @@ using BlazorMerge.Files;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using var host = CreateHostBuilder(args).Build();
+using var host = CreateHostBuilder().Build();
 using var scope = host.Services.CreateScope();
 
 var services = scope.ServiceProvider;
@@ -17,7 +17,9 @@ catch (Exception e)
     Console.WriteLine(e.Message);
 }
 
-IHostBuilder CreateHostBuilder(string[] strings)
+return;
+
+IHostBuilder CreateHostBuilder()
 {
     return Host.CreateDefaultBuilder()
         .ConfigureServices((_, s) =>
