@@ -1,7 +1,7 @@
 ﻿namespace BlazorMerge;
 
-public class Constants
+public static class Constants
 {
-    public static string MainFileName = "appsettings.json";
-    public static string EnvironmentFileName = "appsettings.{environment}.json";
+    public const string MainFileName = "appsettings.json";
+    public const string EnvironmentFileName = "appsettings.{environment}.json";
 }
