@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Removed all usage of `set-output` in GitHub Actions.
+
 ## [0.2.3.7] - 2024-04-10
 
 ## [0.2.2.8] - 2024-04-05
