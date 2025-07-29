@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Migrated from `thomaseizinger/keep-a-changelog-new-release` to `baynezy/ChangeLogger.Action` (#217)
+- Added GH_TOKEN environment variable to all relevant GitHub Action workflows (#222)
 
 ## [0.2.9.13] - 2025-04-11
 
