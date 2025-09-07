@@ -18,8 +18,8 @@ jobs:
       - name: Extract Issue Number
         shell: bash
         env:
-          HEAD_REF: ${{ github.head_ref }}
-        run: echo "issue=$(echo "$HEAD_REF" | sed 's|[^0-9]||g')" >> $GITHUB_OUTPUT
+          BRANCH_NAME: ${{ github.head_ref }}
+        run: echo "issue=$(echo \"$BRANCH_NAME\" | sed 's|[^0-9]||g')" >> $GITHUB_OUTPUT
         id: extract_issue
       - name: Output Issue Number
         run: echo "Issue Number- ${{ steps.extract_issue.outputs.issue }}"
