@@ -1,0 +1,20 @@
+<testsuites>
+  <testsuite name="BlazorMerge.UnitTests.dll" tests="6" skipped="0" failures="0" errors="0" time="0.43363490000000005" timestamp="2025-09-07T12:15:04" hostname="pkrvm7jw40e0xgp" id="0" package="BlazorMerge.UnitTests.dll">
+    <properties />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergeServiceTests" name="When_LoadingData_Then_DataShouldBePassedToMergerCorrectly(primaryFileName: &quot;appsettings.json&quot;, secondaryFileFormat: &quot;appsettings.{environment}.json&quot;, environment: &quot;Staging&quot;)" time="0.1908833" />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergeServiceTests" name="When_LoadingData_Then_DataShouldBePassedToMergerCorrectly(primaryFileName: &quot;appsettings.json&quot;, secondaryFileFormat: &quot;appsettings.{environment}.json&quot;, environment: &quot;Development&quot;)" time="0.0035942" />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergerTests" name="When_MergingJsonObjects_Then_ResultShouldBeTheCombinationOfBoth" time="0.2200787" />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergerTests" name="When_MergingComplexJsonObjects_Then_ResultShouldBeTheCombinationOfBoth001" time="0.0055874" />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergerTests" name="When_MergingInvalidJson_Then_ShouldThrowException" time="0.0026608" />
+    <testcase classname="BlazorMerge.UnitTests.Merge.MergerTests" name="When_MergingComplexJsonObjects_Then_ResultShouldBeTheCombinationOfBoth002" time="0.0108305" />
+    <system-out>
+Test Framework Informational Messages:
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 8.0.19)
+[xUnit.net 00:00:00.09]   Discovering: BlazorMerge.UnitTests
+[xUnit.net 00:00:00.14]   Discovered:  BlazorMerge.UnitTests
+[xUnit.net 00:00:00.16]   Starting:    BlazorMerge.UnitTests
+[xUnit.net 00:00:00.46]   Finished:    BlazorMerge.UnitTests
+</system-out>
+    <system-err></system-err>
+  </testsuite>
+</testsuites>
