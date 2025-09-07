@@ -97,7 +97,7 @@ public partial class MergeService
         _fileManager.WriteFile(mainFileName, merged);
     }
 
-    private string ReplacePath(MergeOptions options)
+    private static string ReplacePath(MergeOptions options)
     {
         var environment = options.Environment;
         var environmentFileNameFormat = Constants.EnvironmentFileName;
