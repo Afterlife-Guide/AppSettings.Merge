@@ -98,3 +98,6 @@ fabric.properties
 ## VERIFY
 *.received.txt
 *.received.json
+
+## TEST RESULTS  
+TestResults/
