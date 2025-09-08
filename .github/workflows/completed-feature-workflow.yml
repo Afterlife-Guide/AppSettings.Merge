@@ -19,7 +19,9 @@ jobs:
         shell: bash
         env:
           BRANCH_NAME: ${{ github.head_ref }}
-        run: echo "issue=$(echo \"$BRANCH_NAME\" | sed 's|[^0-9]||g')" >> $GITHUB_OUTPUT
+        # Security: Use bash parameter expansion instead of sed to avoid potential command injection
+        # This extracts only digits from the branch name (e.g., "feature/issue-123" -> "123")
+        run: echo "issue=${BRANCH_NAME//[!0-9]/}" >> $GITHUB_OUTPUT
         id: extract_issue
       - name: Output Issue Number
         run: echo "Issue Number- ${{ steps.extract_issue.outputs.issue }}"
