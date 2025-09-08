@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+- Enhanced security by replacing tag-based GitHub Action references with full commit SHA hashes to prevent supply chain attacks (#243)
 - Fixed command injection vulnerability in completed-feature-workflow.yml by using environment variables instead of direct interpolation of user-controlled data (#232)
 
 ### Fixed
