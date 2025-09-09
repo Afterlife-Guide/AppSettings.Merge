@@ -27,7 +27,7 @@ jobs:
         run: git checkout -b release/${{ github.event.inputs.major_version }}.${{ github.event.inputs.minor_version }}.${{ github.event.inputs.patch_version }}.${{ github.run_number }}
         
       - name: Update Version Number
-        uses: Afterlife-Guide/SemVer.Action@23e59d321ba2dbb6736fd78076f9b279fecbeaf2
+        uses: Afterlife-Guide/SemVer.Action@f5f69038a634eaf4bcd692dcf3433a5cb6d831df
         with:
           path: semver.json
           major-version: ${{ github.event.inputs.major_version }}
