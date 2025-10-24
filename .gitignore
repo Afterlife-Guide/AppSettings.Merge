@@ -95,6 +95,10 @@ fabric.properties
 # intellij
 *.DotSettings.user
 
+# Test results
+**/TestResults/
+TestResults/
+
 ## VERIFY
 *.received.txt
 *.received.json
