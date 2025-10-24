@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.10.14] - 2025-10-24
+
 ### Changed
 
 - Migrated from `thomaseizinger/keep-a-changelog-new-release` to `baynezy/ChangeLogger.Action` (#217)
@@ -51,7 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3.4] - 2023-11-17
 
-[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.9.13...HEAD
+[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.10.14...HEAD
+[0.2.10.14]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.9.13...0.2.10.14
 [0.2.9.13]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.8.12...0.2.9.13
 [0.2.8.12]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.7.11...0.2.8.12
 [0.2.7.11]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.6.10...0.2.7.11
