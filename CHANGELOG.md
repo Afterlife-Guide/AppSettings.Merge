@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0.16] - 2025-11-18
+
+### Changed
+
+- Upgraded all projects and CI/CD pipelines from .NET 8 to .NET 10 (#299)
+
 ## [0.2.11.15] - 2025-11-17
 
 ## [0.2.10.14] - 2025-10-24
@@ -55,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3.4] - 2023-11-17
 
-[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.11.15...HEAD
+[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.3.0.16...HEAD
+[0.3.0.16]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.11.15...0.3.0.16
 [0.2.11.15]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.10.14...0.2.11.15
 [0.2.10.14]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.9.13...0.2.10.14
 [0.2.9.13]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.2.8.12...0.2.9.13
