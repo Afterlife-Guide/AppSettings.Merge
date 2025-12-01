@@ -15,8 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Log Branch
+      env:
+        CHECKOUT_REF: ${{ inputs.checkout-ref }}
       run: |
-        echo "Branch: ${{ inputs.checkout-ref }}"
+        echo "Branch: $CHECKOUT_REF"
     - name: Checkout
       uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
       with:
