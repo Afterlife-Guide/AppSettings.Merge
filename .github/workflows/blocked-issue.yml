@@ -20,10 +20,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Add blocked label if issue is blocked
+        env:
+          BODY: ${{ github.event.issue.body }}
+          COMMENT: ${{ github.event.comment.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           body=$BODY
           comment=$COMMENT
-          issue_number=${{ github.event.issue.number }}
+          issue_number=$ISSUE_NUMBER
 
           # if body contains "blocked" or comment contains "blocked"
           # add label "blocked"
@@ -33,7 +38,3 @@ jobs:
             echo "Adding blocked label"
             gh issue edit $issue_number --add-label blocked
           fi
-        env:
-          BODY: ${{ github.event.issue.body }}
-          COMMENT: ${{ github.event.comment.body }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -22,8 +22,11 @@ jobs:
         run: echo "issue=$(echo \"$BRANCH_NAME\" | sed 's|[^0-9]||g')" >> $GITHUB_OUTPUT
         id: extract_issue
       - name: Output Issue Number
-        run: echo "Issue Number- ${{ steps.extract_issue.outputs.issue }}"
-      - name: Update Labels
-        run: gh issue edit ${{ steps.extract_issue.outputs.issue }} --add-label "status:next release" --remove-label "status:in progress"
         env:
+          ISSUE_NUMBER: ${{ steps.extract_issue.outputs.issue }}
+        run: echo "Issue Number- $ISSUE_NUMBER"
+      - name: Update Labels
+        env:
+          ISSUE_NUMBER: ${{ steps.extract_issue.outputs.issue }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue edit $ISSUE_NUMBER --add-label "status:next release" --remove-label "status:in progress"
