@@ -49,15 +49,25 @@ jobs:
           tag: ${{ needs.get-version.outputs.major }}.${{ needs.get-version.outputs.minor }}.${{ steps.increment_version.outputs.patch_version }}.${{ github.run_number }}
 
       - name: Update docker image tag version in action.yml
+        env:
+          MAJOR_VERSION: ${{ needs.get-version.outputs.major }}
+          MINOR_VERSION: ${{ needs.get-version.outputs.minor }}
+          PATCH_VERSION: ${{ steps.increment_version.outputs.patch_version }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
-          sed -i "s/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:.*/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:${{ needs.get-version.outputs.major }}.${{ needs.get-version.outputs.minor }}.${{ steps.increment_version.outputs.patch_version }}.${{ github.run_number }}'/" action.yml
+          sed -i "s/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:.*/image: 'docker:\/\/ghcr.io\/afterlife-guide\/appsettings.merge:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$RUN_NUMBER'/" action.yml
       
       - name: Commit Changes
+        env:
+          MAJOR_VERSION: ${{ needs.get-version.outputs.major }}
+          MINOR_VERSION: ${{ needs.get-version.outputs.minor }}
+          PATCH_VERSION: ${{ steps.increment_version.outputs.patch_version }}
+          RUN_NUMBER: ${{ github.run_number }}
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "no-reply@after-life.co"
           git add CHANGELOG.md semver.json action.yml
-          git commit --message "Bump Version to ${{ needs.get-version.outputs.major }}.${{ needs.get-version.outputs.minor }}.${{ steps.increment_version.outputs.patch_version }}.${{ github.run_number }}"
+          git commit --message "Bump Version to $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$RUN_NUMBER"
 
       - name: Push Version
         env:

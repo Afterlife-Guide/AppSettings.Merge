@@ -41,15 +41,22 @@ jobs:
         with:
           path: 'semver.json'
       - id: set-version
+        env:
+          MAJOR: ${{ steps.get-version.outputs.major }}
+          MINOR: ${{ steps.get-version.outputs.minor }}
+          PATCH: ${{ steps.get-version.outputs.patch }}
+          BUILD: ${{ steps.get-version.outputs.build }}
+          RUN_NUMBER: ${{ github.run_number }}
+          STATIC_BUILD: ${{ inputs.static-build }}
         run: |
-          echo "major=${{ steps.get-version.outputs.major }}" >> $GITHUB_OUTPUT
-          echo "minor=${{ steps.get-version.outputs.minor }}" >> $GITHUB_OUTPUT
-          echo "patch=${{ steps.get-version.outputs.patch }}" >> $GITHUB_OUTPUT
+          echo "major=$MAJOR" >> $GITHUB_OUTPUT
+          echo "minor=$MINOR" >> $GITHUB_OUTPUT
+          echo "patch=$PATCH" >> $GITHUB_OUTPUT
           
-          if [ "${{ inputs.static-build }}" == true ]; then
-            echo "version=${{ steps.get-version.outputs.major }}.${{ steps.get-version.outputs.minor }}.${{ steps.get-version.outputs.patch }}.${{ steps.get-version.outputs.build }}" >> $GITHUB_OUTPUT
-            echo "build=${{ steps.get-version.outputs.build }}" >> $GITHUB_OUTPUT
+          if [ "$STATIC_BUILD" == true ]; then
+            echo "version=$MAJOR.$MINOR.$PATCH.$BUILD" >> $GITHUB_OUTPUT
+            echo "build=$BUILD" >> $GITHUB_OUTPUT
           else
-            echo "version=${{ steps.get-version.outputs.major }}.${{ steps.get-version.outputs.minor }}.${{ steps.get-version.outputs.patch }}.${{ github.run_number }}" >> $GITHUB_OUTPUT
-            echo "build=${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "version=$MAJOR.$MINOR.$PATCH.$RUN_NUMBER" >> $GITHUB_OUTPUT
+            echo "build=$RUN_NUMBER" >> $GITHUB_OUTPUT
           fi
