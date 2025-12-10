@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Bug with deployment (#324)
+
 ### Security
 
 - Fixed command injection vulnerabilities in multiple GitHub Actions workflows by moving user-controlled data to environment variables instead of direct interpolation in run blocks. This affects the following workflows: draft-new-release.yml, blocked-issue.yml, completed-feature-workflow.yml, in-progress-feature-workflow.yml, branch-hotfix.yml, step-push-package.yml, step-tag-release.yml, step-build.yml, and step-version.yml (#315)
