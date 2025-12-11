@@ -26,8 +26,10 @@ jobs:
           
       - name: Lowercase Tag
         id: lowercase_tag
+        env:
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
-          echo "repo_owner=$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "repo_owner=$(echo $REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
           echo "container_name=$(echo 'AppSettings.Merge' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
           
       - name: Build and push Docker image
