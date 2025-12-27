@@ -48,6 +48,18 @@ jobs:
           RESOLVER_URL: ${{ github.event.inputs.resolver_url }}
           RESOLVER_TOKEN: ${{ github.event.inputs.resolver_token }}
         run: |
+          # Validate repository format (owner/repo)
+          if ! [[ "$FULL_REPOSITORY" =~ ^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$ ]]; then
+            echo "Error: Invalid repository format. Expected: owner/repo"
+            exit 1
+          fi
+          
+          # Validate URL format for resolver_url
+          if ! [[ "$RESOLVER_URL" =~ ^https?:// ]]; then
+            echo "Error: Invalid resolver URL format. Must start with http:// or https://"
+            exit 1
+          fi
+          
           # Use heredoc format to safely handle special characters and multiline content
           {
             echo "full_repository=$FULL_REPOSITORY"

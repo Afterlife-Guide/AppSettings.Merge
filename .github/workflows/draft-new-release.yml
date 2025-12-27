@@ -35,10 +35,12 @@ jobs:
         run: |
           # Validate that version inputs contain only numeric values
           NUMERIC_PATTERN='^[0-9]+$'
-          if ! [[ "$MAJOR_VERSION" =~ $NUMERIC_PATTERN ]] || ! [[ "$MINOR_VERSION" =~ $NUMERIC_PATTERN ]] || ! [[ "$PATCH_VERSION" =~ $NUMERIC_PATTERN ]]; then
-            echo "Error: Version inputs must contain only numeric values"
-            exit 1
-          fi
+          for version_part in "$MAJOR_VERSION" "$MINOR_VERSION" "$PATCH_VERSION"; do
+            if ! [[ "$version_part" =~ $NUMERIC_PATTERN ]]; then
+              echo "Error: Version inputs must contain only numeric values"
+              exit 1
+            fi
+          done
           echo "major=$MAJOR_VERSION" >> $GITHUB_OUTPUT
           echo "minor=$MINOR_VERSION" >> $GITHUB_OUTPUT
           echo "patch=$PATCH_VERSION" >> $GITHUB_OUTPUT
