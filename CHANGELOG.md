@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Fixed workflow security issue in test-dependabot.yml by replacing forgeable `github.actor` context value with more secure `github.event.pull_request.user.login` to properly verify Dependabot PRs (SonarQube rule githubactions:S8232)
+
 ## [0.3.2.19] - 2025-12-12
 
 ## [0.3.1.18] - 2025-12-11
