@@ -34,7 +34,8 @@ jobs:
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
         run: |
           # Validate that version inputs contain only numeric values
-          if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]] || ! [[ "$MINOR_VERSION" =~ ^[0-9]+$ ]] || ! [[ "$PATCH_VERSION" =~ ^[0-9]+$ ]]; then
+          NUMERIC_PATTERN='^[0-9]+$'
+          if ! [[ "$MAJOR_VERSION" =~ $NUMERIC_PATTERN ]] || ! [[ "$MINOR_VERSION" =~ $NUMERIC_PATTERN ]] || ! [[ "$PATCH_VERSION" =~ $NUMERIC_PATTERN ]]; then
             echo "Error: Version inputs must contain only numeric values"
             exit 1
           fi

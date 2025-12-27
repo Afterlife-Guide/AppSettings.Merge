@@ -25,8 +25,8 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          # Validate that HEAD_REF is a valid git reference format
-          if ! [[ "$HEAD_REF" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+          # Validate that HEAD_REF is a valid git reference
+          if ! git check-ref-format --allow-onelevel "$HEAD_REF"; then
             echo "Error: Invalid branch name format"
             exit 1
           fi
