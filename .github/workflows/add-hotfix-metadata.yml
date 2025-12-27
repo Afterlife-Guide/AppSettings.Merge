@@ -30,7 +30,7 @@ jobs:
       - name: Increment Version
         id: increment_version
         run: |
-          echo "patch_version=$(($(cat semver.json | jq -r '.patch')+1))" > $GITHUB_OUTPUT
+          echo "patch_version=$(($(cat semver.json | jq -r '.patch')+1))" >> $GITHUB_OUTPUT
       - name: Store New Version
         uses: Afterlife-Guide/SemVer.Action@9dc4921011b4c29d63259b6bbd6d7322410e2e91
         with:
