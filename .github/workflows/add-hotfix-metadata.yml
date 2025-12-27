@@ -25,9 +25,10 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          # Validate that HEAD_REF starts and ends with hotfix/ pattern (prevent bypass attacks)
-          if ! [[ "$HEAD_REF" =~ ^hotfix/[a-zA-Z0-9._-]+$ ]]; then
-            echo "Error: Branch must be a hotfix branch with valid characters"
+          # Validate that HEAD_REF starts with hotfix/ and has valid characters
+          # Pattern ensures: starts with hotfix/, then alphanumeric, then optional _.- chars, ends with alphanumeric
+          if ! [[ "$HEAD_REF" =~ ^hotfix/[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?$ ]]; then
+            echo "Error: Branch must be a hotfix branch with valid naming convention"
             exit 1
           fi
           # Use git's branch-specific validation
