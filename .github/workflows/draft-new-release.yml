@@ -33,6 +33,11 @@ jobs:
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
         run: |
+          # Validate that version inputs contain only numeric values
+          if ! [[ "$MAJOR_VERSION" =~ ^[0-9]+$ ]] || ! [[ "$MINOR_VERSION" =~ ^[0-9]+$ ]] || ! [[ "$PATCH_VERSION" =~ ^[0-9]+$ ]]; then
+            echo "Error: Version inputs must contain only numeric values"
+            exit 1
+          fi
           echo "major=$MAJOR_VERSION" >> $GITHUB_OUTPUT
           echo "minor=$MINOR_VERSION" >> $GITHUB_OUTPUT
           echo "patch=$PATCH_VERSION" >> $GITHUB_OUTPUT

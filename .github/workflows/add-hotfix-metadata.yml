@@ -25,6 +25,11 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
+          # Validate that HEAD_REF is a valid git reference format
+          if ! [[ "$HEAD_REF" =~ ^[a-zA-Z0-9/_.-]+$ ]]; then
+            echo "Error: Invalid branch name format"
+            exit 1
+          fi
           git fetch origin "$HEAD_REF"
           git checkout "$HEAD_REF"
       - name: Increment Version
