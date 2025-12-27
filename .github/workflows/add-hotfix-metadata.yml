@@ -21,8 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-        with:
-          ref: ${{ github.head_ref }}
+      - name: Checkout head branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          git fetch origin "$HEAD_REF"
+          git checkout "$HEAD_REF"
       - name: Increment Version
         id: increment_version
         run: |

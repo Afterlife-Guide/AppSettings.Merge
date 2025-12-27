@@ -37,14 +37,33 @@ jobs:
     runs-on: ubuntu-latest
     name: gitStream workflow automation
     steps:
+      - name: Validate and store inputs
+        id: validate-inputs
+        env:
+          FULL_REPOSITORY: ${{ github.event.inputs.full_repository }}
+          HEAD_REF: ${{ github.event.inputs.head_ref }}
+          BASE_REF: ${{ github.event.inputs.base_ref }}
+          CLIENT_PAYLOAD: ${{ github.event.inputs.client_payload }}
+          INSTALLATION_ID: ${{ github.event.inputs.installation_id }}
+          RESOLVER_URL: ${{ github.event.inputs.resolver_url }}
+          RESOLVER_TOKEN: ${{ github.event.inputs.resolver_token }}
+        run: |
+          echo "full_repository=$FULL_REPOSITORY" >> $GITHUB_OUTPUT
+          echo "head_ref=$HEAD_REF" >> $GITHUB_OUTPUT
+          echo "base_ref=$BASE_REF" >> $GITHUB_OUTPUT
+          echo "client_payload=$CLIENT_PAYLOAD" >> $GITHUB_OUTPUT
+          echo "installation_id=$INSTALLATION_ID" >> $GITHUB_OUTPUT
+          echo "resolver_url=$RESOLVER_URL" >> $GITHUB_OUTPUT
+          echo "resolver_token=$RESOLVER_TOKEN" >> $GITHUB_OUTPUT
+
       - name: Evaluate Rules
         uses: linear-b/gitstream-github-action@baa51c172f8d9f32b9c3d73da4fbc69822ce6db9
         id: rules-engine
         with:
-          full_repository: ${{ github.event.inputs.full_repository }}
-          head_ref: ${{ github.event.inputs.head_ref }}
-          base_ref: ${{ github.event.inputs.base_ref }}
-          client_payload: ${{ github.event.inputs.client_payload }}
-          installation_id: ${{ github.event.inputs.installation_id }}
-          resolver_url: ${{ github.event.inputs.resolver_url }}
-          resolver_token: ${{ github.event.inputs.resolver_token }}
+          full_repository: ${{ steps.validate-inputs.outputs.full_repository }}
+          head_ref: ${{ steps.validate-inputs.outputs.head_ref }}
+          base_ref: ${{ steps.validate-inputs.outputs.base_ref }}
+          client_payload: ${{ steps.validate-inputs.outputs.client_payload }}
+          installation_id: ${{ steps.validate-inputs.outputs.installation_id }}
+          resolver_url: ${{ steps.validate-inputs.outputs.resolver_url }}
+          resolver_token: ${{ steps.validate-inputs.outputs.resolver_token }}

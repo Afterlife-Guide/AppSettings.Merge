@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Fixed BLOCKER security vulnerability (SonarQube githubactions:S8263) where user-controlled data was passed directly as action parameters in GitHub Actions workflows. Refactored add-hotfix-metadata.yml, draft-new-release.yml, and gitstream.yml to use environment variables and validated step outputs instead of direct parameter interpolation.
+
 ## [0.3.2.19] - 2025-12-12
 
 ## [0.3.1.18] - 2025-12-11
