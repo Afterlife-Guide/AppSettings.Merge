@@ -25,17 +25,6 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          # Validate that HEAD_REF starts with hotfix/ and has valid characters
-          # Pattern ensures: starts with hotfix/, then alphanumeric, then optional _.- chars, ends with alphanumeric
-          if ! [[ "$HEAD_REF" =~ ^hotfix/[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?$ ]]; then
-            echo "Error: Branch must be a hotfix branch with valid naming convention"
-            exit 1
-          fi
-          # Use git's branch-specific validation
-          if ! git check-ref-format --branch "$HEAD_REF"; then
-            echo "Error: Invalid branch name format"
-            exit 1
-          fi
           git fetch origin "$HEAD_REF"
           git checkout "$HEAD_REF"
       - name: Increment Version

@@ -26,21 +26,13 @@ jobs:
         with:
           token: ${{ secrets.CREATE_PR_TOKEN }}
           fetch-depth: 0
-      - name: Validate and store version inputs
+      - name: Store version inputs
         id: validate-version
         env:
           MAJOR_VERSION: ${{ github.event.inputs.major_version }}
           MINOR_VERSION: ${{ github.event.inputs.minor_version }}
           PATCH_VERSION: ${{ github.event.inputs.patch_version }}
         run: |
-          # Validate that version inputs contain only numeric values
-          NUMERIC_PATTERN='^[0-9]+$'
-          for version_part in "$MAJOR_VERSION" "$MINOR_VERSION" "$PATCH_VERSION"; do
-            if ! [[ "$version_part" =~ $NUMERIC_PATTERN ]]; then
-              echo "Error: Version inputs must contain only numeric values"
-              exit 1
-            fi
-          done
           echo "major=$MAJOR_VERSION" >> $GITHUB_OUTPUT
           echo "minor=$MINOR_VERSION" >> $GITHUB_OUTPUT
           echo "patch=$PATCH_VERSION" >> $GITHUB_OUTPUT

@@ -10,8 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 - Fixed BLOCKER security vulnerability (SonarQube githubactions:S8263) where user-controlled data was passed directly as action parameters in GitHub Actions workflows. (#347)
-- Refactored add-hotfix-metadata.yml, draft-new-release.yml, and gitstream.yml to use environment variables and validated step outputs. (#347)
-- Added input validation to prevent shell injection attacks. (#347)
+- Refactored add-hotfix-metadata.yml, draft-new-release.yml, and gitstream.yml to use environment variables and step outputs instead of direct parameter interpolation. (#347)
 - Fixed workflow security issue in test-dependabot.yml by replacing forgeable `github.actor` context value with more secure `github.event.pull_request.user.login` to properly verify Dependabot PRs (SonarQube rule githubactions:S8232) (#348)
 
 ## [0.3.2.19] - 2025-12-12
