@@ -25,8 +25,12 @@ jobs:
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          # Validate that HEAD_REF is a valid git reference
-          if ! git check-ref-format --allow-onelevel "$HEAD_REF"; then
+          # Validate that HEAD_REF is a valid git reference and starts with hotfix/
+          if ! [[ "$HEAD_REF" =~ ^hotfix/ ]]; then
+            echo "Error: Branch must be a hotfix branch"
+            exit 1
+          fi
+          if ! git check-ref-format "refs/heads/$HEAD_REF"; then
             echo "Error: Invalid branch name format"
             exit 1
           fi
