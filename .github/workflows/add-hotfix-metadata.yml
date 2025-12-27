@@ -21,12 +21,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-        with:
-          ref: ${{ github.head_ref }}
+      - name: Checkout head branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          git fetch origin "$HEAD_REF"
+          git checkout "$HEAD_REF"
       - name: Increment Version
         id: increment_version
         run: |
-          echo "patch_version=$(($(cat semver.json | jq -r '.patch')+1))" > $GITHUB_OUTPUT
+          echo "patch_version=$(($(cat semver.json | jq -r '.patch')+1))" >> $GITHUB_OUTPUT
       - name: Store New Version
         uses: Afterlife-Guide/SemVer.Action@9dc4921011b4c29d63259b6bbd6d7322410e2e91
         with:
