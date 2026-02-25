@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed regex pattern to match and delete appsettings files with double extensions (e.g., `appsettings.Dev.json.br`, `appsettings.Development.json.gz`) which were previously not being detected and deleted (#408)
+
 ## [0.4.1.7] - 2026-02-25
 
 ### Fixed

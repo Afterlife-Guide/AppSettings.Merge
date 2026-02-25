@@ -105,6 +105,6 @@ public partial class MergeService(IFileManager fileManager, IMerger merger)
         return environmentFileNameFormat.Replace("{environment}", environment);
     }
 
-    [GeneratedRegex(@"appsettings(\.\w+)?\.(json|br|gz)$")]
+    [GeneratedRegex(@"appsettings(\.\w+)?\.((json(\.(br|gz))?)|br|gz)$")]
     private static partial Regex IsAppSettingsFile();
 }

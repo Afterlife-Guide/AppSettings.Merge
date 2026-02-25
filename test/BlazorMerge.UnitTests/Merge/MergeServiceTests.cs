@@ -119,6 +119,44 @@ public class MergeServiceTests
 
     [Theory]
     [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalledWithDoubleExtensionFiles_ThenShouldDeleteCorrectAppSettingFiles(string environment)
+    {
+        // arrange
+        var options = CreateDefaultOptions(environment);
+        var settingsFiles = new List<string>
+        {
+            "appsettings.json",
+            "appsettings.json.br",
+            "appsettings.json.gz",
+            "appsettings.Dev.json",
+            "appsettings.Dev.json.br",
+            "appsettings.Dev.json.gz",
+            "appsettings.Development.json",
+            "appsettings.Development.json.br",
+            "appsettings.Development.json.gz",
+            "appsettings.Staging.json",
+            "appsettings.Staging.json.br",
+            "appsettings.Staging.json.gz",
+            "appsettings.Production.json",
+            "appsettings.Production.json.br",
+            "appsettings.Production.json.gz"
+        };
+        _mockFileManager.ListSettingsFiles(Arg.Any<string>(), Arg.Any<Func<string, bool>>())
+            .Returns(settingsFiles);
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        foreach (var file in settingsFiles.Where(file => file != "appsettings.json"))
+        {
+            _mockFileManager.Received(1)
+                .DeleteFile($"{DefaultPath}{file}");
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(Environments))]
     public void MergeEnvironment_WhenCalled_ThenShouldEmptyProductionAppSettingFile(string environment)
     {
         // arrange
