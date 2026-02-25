@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2.23] - 2026-02-25
+
+### Fixed
+
+- Fixed regex pattern to match and delete appsettings files with double extensions (e.g., `appsettings.Dev.json.br`, `appsettings.Development.json.gz`) which were previously not being detected and deleted (#408)
+
 ## [0.4.1.7] - 2026-02-25
 
 ### Fixed
@@ -97,7 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3.4] - 2023-11-17
 
-[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.1.7...HEAD
+[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.2.23...HEAD
+[0.4.2.23]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.1.7...0.4.2.23
 [0.4.1.7]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.0.22...0.4.1.7
 [0.4.0.22]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.3.4.21...0.4.0.22
 [0.3.4.21]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.3.3.20...0.3.4.21
