@@ -1,95 +1,187 @@
 ﻿using BlazorMerge.Feature.Merge;
 using BlazorMerge.Files;
-using Microsoft.Extensions.Configuration;
+using CommandLine;
 
 namespace BlazorMerge.UnitTests.Merge;
 
 public class MergeServiceTests
 {
-    [Theory]
-    [InlineData("appsettings.json", "appsettings.{environment}.json", "Development")]
-    [InlineData("appsettings.json", "appsettings.{environment}.json", "Staging")]
-    public void When_LoadingData_Then_DataShouldBePassedToMergerCorrectly(string primaryFileName, string secondaryFileFormat, string environment)
+    private readonly MergeService _sut;
+    private readonly IFileManager _mockFileManager = Substitute.For<IFileManager>();
+    private readonly IMerger _mockMerger = Substitute.For<IMerger>();
+    private const string DefaultPath = @"Z:\my-project\wwwroot\";
+
+    public MergeServiceTests()
     {
-        // arrange
-        var options = new MergeOptions
-        {
-            Environment = environment,
-            Path = @"Z:\my-project\wwwroot\"
-        };
-        
-        const string readValue = "{\"key\": \"value\"}";
-        const string mergeValue = "{\"key\": \"other value\"}";
-
-        var otherFiles = new List<string>
-        {
-            "appsettings.Dev.json",
-            "appsettings.Production.json"
-        };
-        var settingsFiles = new List<string>
-        {
-            primaryFileName,
-            $"{primaryFileName}.br",
-            $"{primaryFileName}.gz",
-            $"appsettings.{environment}.json",
-            $"appsettings.{environment}.br",
-            $"appsettings.{environment}.gz"
-        };
-        
-        settingsFiles.AddRange(otherFiles);
-        var mockConfig = Substitute.For<IConfiguration>();
-        mockConfig["AppSettings:MainFileName"].Returns(primaryFileName);
-        mockConfig["AppSettings:EnvironmentFileName"].Returns(secondaryFileFormat);
-
-        var mockFileManager = Substitute.For<IFileManager>();
-        mockFileManager.ReadFile(Arg.Any<string>()).Returns(readValue);
-        mockFileManager.WriteFile(Arg.Any<string>(), Arg.Any<string>()); // can I delete this line?
-        mockFileManager.ListSettingsFiles(Arg.Any<string>(), Arg.Any<Func<string, bool>>()).Returns(settingsFiles);
-        mockFileManager.DeleteFile(Arg.Any<string>()); // can I delete this line?
-        
-        var mockMerger = Substitute.For<IMerger>();
-        mockMerger.Merge(Arg.Any<string>(), Arg.Any<string>()).Returns(mergeValue);
-        mockMerger.Configure().Merge("{}", "{}").Returns("{}");
-        
-        var mergeService = new MergeService(mockFileManager,
-            mockMerger
-            );
-        
-        // act
-        var result = mergeService.MergeEnvironment(options);
-        
-        // assert
-        result.Should().Be(0);
-        mockFileManager.Received(2).ReadFile(Arg.Any<string>());
-        mockFileManager.Received(1).ReadFile($"{options.Path}{primaryFileName}");
-        mockFileManager.Received(1).ReadFile($"{options.Path}appsettings.{environment}.json");
-        mockFileManager.Received(1).WriteFile($"{options.Path}{primaryFileName}", mergeValue);
-        mockFileManager.Received(1).WriteFile($"{options.Path}appsettings.Production.json", "{}");
-        mockFileManager.Received(1).WriteGzipFile($"{options.Path}{primaryFileName}.gz", mergeValue);
-        mockFileManager.Received(1).WriteBrotliFile($"{options.Path}{primaryFileName}.br", mergeValue);
-        mockFileManager.Received(1).WriteGzipFile($"{options.Path}appsettings.Production.json.gz", "{}");
-        mockFileManager.Received(1).WriteBrotliFile($"{options.Path}appsettings.Production.json.br", "{}");
-        
-        var environmentJsonFiles = settingsFiles.Where(s => s.EndsWith(".json") && !s.EndsWith("appsettings.json")).ToList();
-        var environmentBrotliFiles = settingsFiles.Where(s => s.EndsWith(".br") && !s.EndsWith("appsettings.json.br")).ToList();
-        var environmentGzipFiles = settingsFiles.Where(s => s.EndsWith(".gz") && !s.EndsWith("appsettings.json.gz")).ToList();
-        var filesToDeleteCount = environmentJsonFiles.Count + environmentBrotliFiles.Count + environmentGzipFiles.Count;
-
-        mockFileManager.Received(1).ListSettingsFiles(options.Path, Arg.Any<Func<string, bool>>());
-        mockFileManager.Received(filesToDeleteCount).DeleteFile(Arg.Any<string>());
-        VerifyDeletion(mockFileManager, options, environmentJsonFiles);
-        VerifyDeletion(mockFileManager, options, environmentBrotliFiles);
-        VerifyDeletion(mockFileManager, options, environmentGzipFiles);
-        
-        mockMerger.Received(2).Merge(Arg.Any<string>(), Arg.Any<string>());
+        _sut = new MergeService(_mockFileManager, _mockMerger);
     }
 
-    private static void VerifyDeletion(IFileManager mockFileManager, MergeOptions options, IEnumerable<string> files)
+    [Theory]
+    [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalled_ThenShouldReadMainAppSettingFile(string environment)
     {
-        foreach (var file in files)
+        // arrange
+        var options = CreateDefaultOptions(environment);
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        _mockFileManager
+            .Received(1)
+            .ReadFile($"{DefaultPath}{Constants.MainFileName}");
+    }
+
+    [Theory]
+    [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalled_ThenShouldReadEnvironmentAppSettingFile(string environment)
+    {
+        // arrange
+        var options = CreateDefaultOptions(environment);
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        _mockFileManager
+            .Received(1)
+            .ReadFile($"{DefaultPath}appsettings.{environment}.json");
+    }
+
+    [Theory]
+    [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalled_ThenShouldWriteMergedAppSettingFile(string environment)
+    {
+        // arrange
+        var options = CreateDefaultOptions(environment);
+        var appSettingContent = GetDefaultAppSettingContent();
+        var environmentSettingContent = GetDefaultEnvironmentContent();
+        const string appSettingPath = $"{DefaultPath}appsettings.json";
+        _mockFileManager.ReadFile(appSettingPath)
+            .Returns(appSettingContent);
+        _mockFileManager.ReadFile($"{DefaultPath}appsettings.{environment}.json")
+            .Returns(environmentSettingContent);
+        const string expectedMergedContent = "MergedContent";
+        _mockMerger.Merge(appSettingContent, environmentSettingContent)
+            .Returns(expectedMergedContent);
+
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        var settingsJson = ExtractFileManagerArgument("WriteFile", appSettingPath);
+        var settingsBrotli = ExtractFileManagerArgument("WriteBrotliFile", $"{appSettingPath}.br");
+        var settingsGzip = ExtractFileManagerArgument("WriteGzipFile", $"{appSettingPath}.gz");
+
+        settingsJson.Should()
+            .Be(expectedMergedContent);
+        settingsBrotli.Should()
+            .Be(expectedMergedContent);
+        settingsGzip.Should()
+            .Be(expectedMergedContent);
+    }
+
+    [Theory]
+    [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalled_ThenShouldDeleteCorrectAppSettingFiles(string environment)
+    {
+        // arrange
+        var options = CreateDefaultOptions(environment);
+        var settingsFiles = new List<string>
         {
-            var path = $"{options.Path}{file}";
-            mockFileManager.Received(1).DeleteFile(path);
+            "appsettings.json",
+            "appsettings.json.br",
+            "appsettings.json.gz",
+            "appsettings.Dev.json",
+            "appsettings.Dev.br",
+            "appsettings.Dev.gz",
+            "appsettings.Staging.json",
+            "appsettings.Staging.br",
+            "appsettings.Staging.gz",
+            "appsettings.Production.json",
+            "appsettings.Production.br",
+            "appsettings.Production.gz"
+        };
+        _mockFileManager.ListSettingsFiles(Arg.Any<string>(), Arg.Any<Func<string, bool>>())
+            .Returns(settingsFiles);
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        foreach (var file in settingsFiles.Where(file => file != "appsettings.json"))
+        {
+            _mockFileManager.Received(1)
+                .DeleteFile($"{DefaultPath}{file}");
         }
+    }
+
+    [Theory]
+    [MemberData(nameof(Environments))]
+    public void MergeEnvironment_WhenCalled_ThenShouldEmptyProductionAppSettingFile(string environment)
+    {
+        // arrange
+        var options = CreateDefaultOptions(environment);
+        _mockMerger.Merge("{}", "{}")
+            .Returns("{}");
+
+        // act
+        _sut.MergeEnvironment(options);
+
+        // assert
+        _mockFileManager.Received(1)
+            .WriteFile($"{DefaultPath}appsettings.Production.json", "{}");
+        _mockFileManager.Received(1)
+            .WriteBrotliFile($"{DefaultPath}appsettings.Production.json.br", "{}");
+        _mockFileManager.Received(1)
+            .WriteGzipFile($"{DefaultPath}appsettings.Production.json.gz", "{}");
+    }
+
+    private string ExtractFileManagerArgument(string methodName, string filePath)
+    {
+        var calls = _mockFileManager
+            .ReceivedCalls()
+            .Where(c => c.GetMethodInfo()
+                .Name.Equals(methodName))
+            .Select(x => x.GetArguments())
+            .Last(x => x[0] is not null && x[0]!.Equals(filePath));
+
+        return calls[^1]
+            .Cast<string>();
+    }
+
+    private static string GetDefaultAppSettingContent() =>
+        """
+        {
+            "Default": {
+                "Key": "Value"
+            }
+        }
+        """;
+
+    private static string GetDefaultEnvironmentContent() =>
+        """
+        {
+            "Default": {
+                "Key": "Other"
+            }
+        }
+        """;
+
+    public static TheoryData<string> Environments =>
+    [
+        "Development",
+        "Staging",
+        "Production"
+    ];
+
+    private static MergeOptions CreateDefaultOptions(string environment)
+    {
+        return new MergeOptions
+        {
+            Environment = environment,
+            Path = DefaultPath
+        };
     }
 }
