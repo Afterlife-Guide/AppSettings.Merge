@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.IO.Compression;
+using System.Text;
+using Microsoft.Extensions.Logging;
 
 namespace BlazorMerge.Files;
 
@@ -43,5 +45,23 @@ public class FileManager : IFileManager
         return (from file in files
             where parser(file)
             select Path.GetFileName(file)).ToList();
+    }
+
+    public void WriteGzipFile(string path, string content)
+    {
+        _logger.LogInformation("Writing gzip file {Path}", path);
+        var bytes = Encoding.UTF8.GetBytes(content);
+        using var fileStream = File.Create(path);
+        using var gzipStream = new GZipStream(fileStream, CompressionMode.Compress);
+        gzipStream.Write(bytes, 0, bytes.Length);
+    }
+
+    public void WriteBrotliFile(string path, string content)
+    {
+        _logger.LogInformation("Writing brotli file {Path}", path);
+        var bytes = Encoding.UTF8.GetBytes(content);
+        using var fileStream = File.Create(path);
+        using var brotliStream = new BrotliStream(fileStream, CompressionMode.Compress);
+        brotliStream.Write(bytes, 0, bytes.Length);
     }
 }
