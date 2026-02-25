@@ -2,5 +2,5 @@
 
 public interface IMerger
 {
-    string Merge(string appSetting, string environmentSetting);
+    public string Merge(string appSettingContent, string environmentSettingContent);
 }

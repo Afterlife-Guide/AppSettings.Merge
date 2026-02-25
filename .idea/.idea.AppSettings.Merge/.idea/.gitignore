@@ -17,3 +17,6 @@
 # sonarlint
 sonarlint/
 sonarlint.xml
+
+##Copilot
+copilot.data.*.xml

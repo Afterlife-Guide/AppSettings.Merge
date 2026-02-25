@@ -4,21 +4,13 @@ using Microsoft.Extensions.Logging;
 
 namespace BlazorMerge.Files;
 
-public class FileManager : IFileManager
+public partial class FileManager(ILogger<FileManager> logger) : IFileManager
 {
-    private readonly ILogger<FileManager> _logger;
-
-    public FileManager(ILogger<FileManager> logger)
-    {
-        _logger = logger;
-    }
-
     public string ReadFile(string path)
     {
         if (!FileDoesNotExist(path)) return File.ReadAllText(path);
-        _logger.LogInformation("File {Path} does not exist", path);
+        LogFilePathDoesNotExist(logger, path);
         throw new FileNotFoundException($"File {path} does not exist");
-
     }
 
     private static bool FileDoesNotExist(string path)
@@ -28,13 +20,18 @@ public class FileManager : IFileManager
 
     public void WriteFile(string path, string content)
     {
-        _logger.LogInformation("Writing file {Path}", path);
+        LogWritingFilePath(logger, path);
         File.WriteAllText(path, content);
     }
 
     public void DeleteFile(string path)
     {
-        _logger.LogInformation("Deleting file {Path}", path);
+        if (FileDoesNotExist(path))
+        {
+            logger.LogWarning("File does not exist, cannot delete: {Path}", path);
+            return;
+        }
+        LogDeletingFilePath(logger, path);
         File.Delete(path);
     }
 
@@ -49,7 +46,7 @@ public class FileManager : IFileManager
 
     public void WriteGzipFile(string path, string content)
     {
-        _logger.LogInformation("Writing gzip file {Path}", path);
+        LogWritingGzipFilePath(logger, path);
         var bytes = Encoding.UTF8.GetBytes(content);
         using var fileStream = File.Create(path);
         using var gzipStream = new GZipStream(fileStream, CompressionMode.Compress);
@@ -58,10 +55,25 @@ public class FileManager : IFileManager
 
     public void WriteBrotliFile(string path, string content)
     {
-        _logger.LogInformation("Writing brotli file {Path}", path);
+        LogWritingBrotliFilePath(logger, path);
         var bytes = Encoding.UTF8.GetBytes(content);
         using var fileStream = File.Create(path);
         using var brotliStream = new BrotliStream(fileStream, CompressionMode.Compress);
         brotliStream.Write(bytes, 0, bytes.Length);
     }
+
+    [LoggerMessage(LogLevel.Information, "File {path} does not exist")]
+    static partial void LogFilePathDoesNotExist(ILogger<FileManager> logger, string path);
+
+    [LoggerMessage(LogLevel.Information, "Writing file {path}")]
+    static partial void LogWritingFilePath(ILogger<FileManager> logger, string path);
+
+    [LoggerMessage(LogLevel.Information, "Deleting file {path}")]
+    static partial void LogDeletingFilePath(ILogger<FileManager> logger, string path);
+
+    [LoggerMessage(LogLevel.Information, "Writing gzip file {path}")]
+    static partial void LogWritingGzipFilePath(ILogger<FileManager> logger, string path);
+
+    [LoggerMessage(LogLevel.Information, "Writing brotli file {path}")]
+    static partial void LogWritingBrotliFilePath(ILogger<FileManager> logger, string path);
 }

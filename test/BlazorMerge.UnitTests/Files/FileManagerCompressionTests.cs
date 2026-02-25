@@ -1,21 +1,20 @@
 using System.IO.Compression;
 using System.Text;
 using BlazorMerge.Files;
-using Microsoft.Extensions.Logging;
 
 namespace BlazorMerge.UnitTests.Files;
 
-public class FileManagerCompressionTests : IDisposable
+public sealed class FileManagerCompressionTests : IDisposable
 {
     private readonly string _testDirectory;
-    private readonly FileManager _fileManager;
+    private readonly FileManager _sut;
 
     public FileManagerCompressionTests()
     {
         _testDirectory = Path.Combine(Path.GetTempPath(), $"FileManagerTests_{Guid.NewGuid()}");
         Directory.CreateDirectory(_testDirectory);
-        var logger = Substitute.For<ILogger<FileManager>>();
-        _fileManager = new FileManager(logger);
+        var logger = new StubLogger<FileManager>();
+        _sut = new FileManager(logger);
     }
 
     public void Dispose()
@@ -34,7 +33,7 @@ public class FileManagerCompressionTests : IDisposable
         var gzipPath = Path.Combine(_testDirectory, "appsettings.json.gz");
 
         // act
-        _fileManager.WriteGzipFile(gzipPath, content);
+        _sut.WriteGzipFile(gzipPath, content);
 
         // assert
         File.Exists(gzipPath).Should().BeTrue();
@@ -55,7 +54,7 @@ public class FileManagerCompressionTests : IDisposable
         var brotliPath = Path.Combine(_testDirectory, "appsettings.json.br");
 
         // act
-        _fileManager.WriteBrotliFile(brotliPath, content);
+        _sut.WriteBrotliFile(brotliPath, content);
 
         // assert
         File.Exists(brotliPath).Should().BeTrue();
