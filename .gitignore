@@ -102,3 +102,6 @@ TestResults/
 ## VERIFY
 *.received.txt
 *.received.json
+
+# .NET local tools
+dotnet-tools.json
