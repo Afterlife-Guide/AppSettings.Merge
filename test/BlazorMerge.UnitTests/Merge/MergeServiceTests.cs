@@ -65,6 +65,10 @@ public class MergeServiceTests
         mockFileManager.Received(1).ReadFile($"{options.Path}appsettings.{environment}.json");
         mockFileManager.Received(1).WriteFile($"{options.Path}{primaryFileName}", mergeValue);
         mockFileManager.Received(1).WriteFile($"{options.Path}appsettings.Production.json", "{}");
+        mockFileManager.Received(1).WriteGzipFile($"{options.Path}{primaryFileName}.gz", mergeValue);
+        mockFileManager.Received(1).WriteBrotliFile($"{options.Path}{primaryFileName}.br", mergeValue);
+        mockFileManager.Received(1).WriteGzipFile($"{options.Path}appsettings.Production.json.gz", "{}");
+        mockFileManager.Received(1).WriteBrotliFile($"{options.Path}appsettings.Production.json.br", "{}");
         
         var environmentJsonFiles = settingsFiles.Where(s => s.EndsWith(".json") && !s.EndsWith("appsettings.json")).ToList();
         var environmentBrotliFiles = settingsFiles.Where(s => s.EndsWith(".br") && !s.EndsWith("appsettings.json.br")).ToList();
