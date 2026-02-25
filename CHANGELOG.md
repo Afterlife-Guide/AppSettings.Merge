@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Brotli and Gzip deletion is not correct (#399)
+
 ## [0.4.0.22] - 2026-02-25
 
 ### Added

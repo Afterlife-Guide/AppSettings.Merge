@@ -6,18 +6,18 @@ namespace BlazorMerge;
 
 public class App
 {
-    private readonly MergeService _mergeService;
+    private readonly MergeService _mergeServiceLegacy;
 
-    public App(IConfiguration configuration, MergeService mergeService)
+    public App(IConfiguration configuration, MergeService mergeServiceLegacy)
     {
-        _mergeService = mergeService;
+        _mergeServiceLegacy = mergeServiceLegacy;
     }
 
     public void Run(IEnumerable<string> args)
     {
         Parser.Default.ParseArguments<MergeOptions>(args)
             .MapResult(
-                (MergeOptions opts) => _mergeService.MergeEnvironment(opts),
+                (MergeOptions opts) => _mergeServiceLegacy.MergeEnvironment(opts),
                 errs => 1
                 );
     }

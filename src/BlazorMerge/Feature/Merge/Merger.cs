@@ -4,10 +4,10 @@ namespace BlazorMerge.Feature.Merge;
 
 public class Merger : IMerger
 {
-    public string Merge(string appSetting, string environmentSetting)
+    public string Merge(string appSettingContent, string environmentSettingContent)
     {
-        var appSettingJObject = JObject.Parse(appSetting);
-        var environmentSettingJObject = JObject.Parse(environmentSetting);
+        var appSettingJObject = JObject.Parse(appSettingContent);
+        var environmentSettingJObject = JObject.Parse(environmentSettingContent);
         appSettingJObject.Merge(environmentSettingJObject, new JsonMergeSettings
         {
             MergeArrayHandling = MergeArrayHandling.Union,
