@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Gzip and Brotli compression support for merged appsettings files. After merging, `.gz` and `.br` versions are automatically created for both `appsettings.json` and `appsettings.{environment}.json` files using System.IO.Compression
+- Gzip and Brotli compression support for merged appsettings files. After merging, `.gz` and `.br` versions are automatically created for both `appsettings.json` and `appsettings.{environment}.json` files using System.IO.Compression (#401)
 
 ### Fixed
 
