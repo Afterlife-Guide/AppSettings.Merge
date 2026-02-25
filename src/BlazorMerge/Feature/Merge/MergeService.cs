@@ -95,6 +95,8 @@ public partial class MergeService
     {
         var merged = _merger.Merge(readAppSetting, readEnvironmentSetting);
         _fileManager.WriteFile(mainFileName, merged);
+        _fileManager.WriteGzipFile($"{mainFileName}.gz", merged);
+        _fileManager.WriteBrotliFile($"{mainFileName}.br", merged);
     }
 
     private static string ReplacePath(MergeOptions options)
