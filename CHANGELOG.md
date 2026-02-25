@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Only delete Brotli and Gzip files with SettingsFileType.Environment, preserving Primary type compressed files
+
 ## [0.3.4.21] - 2026-02-11
 
 ## [0.3.3.20] - 2026-01-16

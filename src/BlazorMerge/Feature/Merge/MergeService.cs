@@ -40,8 +40,8 @@ public partial class MergeService
         var settingsFiles = ParseSettingsFiles(files);
         var jsonFilesToDelete = settingsFiles
             .Where(x => x is {Type: SettingsFileType.Environment, Extension: SettingsFileExtension.Json}).ToList();
-        var brotliFilesToDelete = settingsFiles.Where(x => x is {Extension: SettingsFileExtension.Brotli}).ToList();
-        var gzipFilesToDelete = settingsFiles.Where(x => x is {Extension: SettingsFileExtension.Gzip}).ToList();
+        var brotliFilesToDelete = settingsFiles.Where(x => x is {Type: SettingsFileType.Environment, Extension: SettingsFileExtension.Brotli}).ToList();
+        var gzipFilesToDelete = settingsFiles.Where(x => x is {Type: SettingsFileType.Environment, Extension: SettingsFileExtension.Gzip}).ToList();
 
         DeleteFiles(jsonFilesToDelete, options);
         DeleteFiles(brotliFilesToDelete, options);
