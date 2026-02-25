@@ -67,15 +67,15 @@ public class MergeServiceTests
         mockFileManager.Received(1).WriteFile($"{options.Path}appsettings.Production.json", "{}");
         
         var environmentJsonFiles = settingsFiles.Where(s => s.EndsWith(".json") && !s.EndsWith("appsettings.json")).ToList();
-        var allBrotliFiles = settingsFiles.Where(s => s.EndsWith(".br")).ToList();
-        var allGzipFiles = settingsFiles.Where(s => s.EndsWith(".gz")).ToList();
-        var filesToDeleteCount = environmentJsonFiles.Count + allBrotliFiles.Count + allGzipFiles.Count;
+        var environmentBrotliFiles = settingsFiles.Where(s => s.EndsWith(".br") && !s.EndsWith("appsettings.json.br")).ToList();
+        var environmentGzipFiles = settingsFiles.Where(s => s.EndsWith(".gz") && !s.EndsWith("appsettings.json.gz")).ToList();
+        var filesToDeleteCount = environmentJsonFiles.Count + environmentBrotliFiles.Count + environmentGzipFiles.Count;
 
         mockFileManager.Received(1).ListSettingsFiles(options.Path, Arg.Any<Func<string, bool>>());
         mockFileManager.Received(filesToDeleteCount).DeleteFile(Arg.Any<string>());
         VerifyDeletion(mockFileManager, options, environmentJsonFiles);
-        VerifyDeletion(mockFileManager, options, allBrotliFiles);
-        VerifyDeletion(mockFileManager, options, allGzipFiles);
+        VerifyDeletion(mockFileManager, options, environmentBrotliFiles);
+        VerifyDeletion(mockFileManager, options, environmentGzipFiles);
         
         mockMerger.Received(2).Merge(Arg.Any<string>(), Arg.Any<string>());
     }
