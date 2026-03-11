@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.3.24] - 2026-03-11
+
+### Changed
+
+- Upgraded xunit to version 3 (#413)
+
 ## [0.4.2.23] - 2026-02-25
 
 ### Fixed
@@ -103,7 +109,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3.4] - 2023-11-17
 
-[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.2.23...HEAD
+[unreleased]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.3.24...HEAD
+[0.4.3.24]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.2.23...0.4.3.24
 [0.4.2.23]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.1.7...0.4.2.23
 [0.4.1.7]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.4.0.22...0.4.1.7
 [0.4.0.22]: https://github.com/Afterlife-Guide/AppSettings.Merge/compare/0.3.4.21...0.4.0.22
