@@ -9,7 +9,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/afterlife-guide/appsettings.merge:0.4.4.25'
+  image: 'docker://ghcr.io/afterlife-guide/appsettings.merge:0.4.5.26'
   args:
     - '-e'
     - ${{ inputs.app-environment }}
