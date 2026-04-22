@@ -1,4 +1,4 @@
-name: DAdd HotFix Metadata
+name: Add HotFix Metadata
 
 on:
   pull_request:
