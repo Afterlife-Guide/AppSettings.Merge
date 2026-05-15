@@ -18,6 +18,9 @@ updates:
           - "Verify.Xunit"
           - "xunit"
           - "xunit.*"
+      microsoft-testing:
+        patterns:
+          - "Microsoft.Testing.*"
       
   - package-ecosystem: "github-actions"
     directory: "/" # Location of package manifests
