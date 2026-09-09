@@ -20,3 +20,7 @@ sonarlint.xml
 
 ##Copilot
 copilot.data.*.xml
+
+# aws toolkit
+aws.xml
+awsToolkit.xml

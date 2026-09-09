@@ -38,8 +38,23 @@ Task("Test")
 		{
 			NoRestore = true,
 			Configuration = configuration,
-            Loggers = new string[] { "junit;LogFileName=results.xml" }
+            EnvironmentVariables = new Dictionary<string, string>
+                                                    {
+                                                        ["TESTINGPLATFORM_EXITCODE_IGNORE"] = "8"
+                                                    }
 		});
+		
+		var logFileName = $"results.xml";
+        var testProjects = GetFiles("./test/**/*.*Tests.csproj");
+        foreach (var project in testProjects)
+        {
+            var projectName = project.GetFilenameWithoutExtension().ToString();
+            var dll = GetFiles($"{project.GetDirectory()}/bin/{configuration}/**/{projectName}.dll").First();
+            var reportPath = project.GetDirectory().Combine("TestResults").CombineWithFilePath(logFileName);
+            var testArguments = $"-result-junit \"{reportPath}\"";
+
+            DotNetExecute(dll.FullPath, testArguments);
+        }
 	});
 
 RunTarget(target);
