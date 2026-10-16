@@ -1,0 +1,6 @@
+<Project>
+    <PropertyGroup>
+        <VerifySponsorshipExemption>OpenSource</VerifySponsorshipExemption>
+        <VerifySponsorshipExemptionExpiry>$([System.DateTime]::Now.AddMonths(11).ToString("yyyy-MM"))</VerifySponsorshipExemptionExpiry>
+    </PropertyGroup>
+</Project>

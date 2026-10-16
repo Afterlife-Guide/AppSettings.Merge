@@ -34,7 +34,7 @@ jobs:
           
       - name: Build and push Docker image
         # Using commit from v2 era - AC9327EAE2B366085AC7F6A2D02DF8AA8EAD720A  
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
         with:
           context: .
           file: ./src/BlazorMerge/Dockerfile
