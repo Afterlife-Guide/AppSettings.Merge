@@ -17,7 +17,7 @@
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
       <PackageReference Include="NSubstitute" Version="6.2.0" />
-      <PackageReference Include="StubLogger" Version="3.0.2.10" />
+      <PackageReference Include="StubLogger" Version="3.0.4.13" />
       <PackageReference Include="Verify.XunitV3" Version="33.1.5" />
       <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
           <PrivateAssets>all</PrivateAssets>
